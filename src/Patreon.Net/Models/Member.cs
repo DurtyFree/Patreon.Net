@@ -70,6 +70,11 @@ namespace Patreon.Net.Models
         [JsonProperty("is_follower")]
         public string IsFollower { get; set; }
         /// <summary>
+        /// The free trial period status of user patron
+        /// </summary>
+        [JsonProperty("is_free_trial")]
+        public string IsFreeTrial { get; set; }
+        /// <summary>
         /// The time of last attempted charge. Can be <see langword="null"/> if never charged.
         /// </summary>
         [JsonProperty("last_charge_date")]
