@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -9,6 +11,7 @@ namespace Patreon.Net.Models
     /// <summary>
     /// The record of a pledging action taken by the user, or that action's failure.
     /// </summary>
+    [PatreonResource("pledge-event")]
     public class PledgeEvent : PatreonResource<PledgeEventRelationships>
     {
         [JsonConverter(typeof(StringEnumConverter))]
@@ -33,6 +36,8 @@ namespace Patreon.Net.Models
         [JsonConverter(typeof(StringEnumConverter))]
         public enum PledgeEventType
         {
+            [EnumMember(Value = "pledge-event")]
+            PledgeEvent,
             [EnumMember(Value = "pledge_start")]
             PledgeStart,
             [EnumMember(Value = "pledge_upgrade")]
@@ -78,8 +83,18 @@ namespace Patreon.Net.Models
         /// <summary>
         /// Event type.
         /// </summary>
-        [JsonProperty("type")]
-        public PledgeEventType EventType { get; set; }
+        [JsonIgnore]
+        public PledgeEventType EventType => EventTypeMap[Id.Split(':').First()];
+
+        private static readonly Dictionary<string, PledgeEventType> EventTypeMap = new Dictionary<string, PledgeEventType>
+        {
+            { "pledge-event", PledgeEventType.PledgeEvent },
+            { "pledge_start", PledgeEventType.PledgeStart },
+            { "pledge_upgrade", PledgeEventType.PledgeUpgrade },
+            { "pledge_downgrade", PledgeEventType.PledgeDowngrade },
+            { "pledge_delete", PledgeEventType.PledgeDelete },
+            { "subscription", PledgeEventType.Subscription }
+        };
     }
 
     public class PledgeEventRelationships
