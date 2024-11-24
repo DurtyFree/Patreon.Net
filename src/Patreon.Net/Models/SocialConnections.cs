@@ -8,6 +8,9 @@ namespace Patreon.Net.Models
     /// </summary>
     public class SocialConnections
     {
+        /// <summary>
+        /// Might be unsupported / obsolete meanwhile?
+        /// </summary>
         [JsonProperty("deviantart")]
         public object DeviantArt { get; set; }
 
@@ -24,14 +27,26 @@ namespace Patreon.Net.Models
         public DiscordConnection Discord { get; set; }
         [JsonProperty("facebook")]
         public object Facebook { get; set; }
+        [JsonProperty("google")]
+        public object Google { get; set; }
+        [JsonProperty("instagram")]
+        public object Instagram { get; set; }
         [JsonProperty("reddit")]
         public object Reddit { get; set; }
         [JsonProperty("spotify")]
         public object Spotify { get; set; }
+        [JsonProperty("spotify_open_access")]
+        public object SpotifyOpenAccess { get; set; }
+        [JsonProperty("tiktok")]
+        public object TikTok { get; set; }
         [JsonProperty("twitch")]
         public object Twitch { get; set; }
         [JsonProperty("twitter")]
         public object Twitter { get; set; }
+        [JsonProperty("twitter2")]
+        public object Twitter2 { get; set; }
+        [JsonProperty("vimeo")]
+        public object Vimeo { get; set; }
         [JsonProperty("youtube")]
         public object YouTube { get; set; }
     }
