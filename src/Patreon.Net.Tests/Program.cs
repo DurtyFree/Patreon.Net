@@ -16,7 +16,7 @@ namespace Patreon.Net.Tests
 
             // Get Identity
             var user = await client.GetIdentityAsync(Includes.All).ConfigureAwait(false);
-            Console.WriteLine($"Access token identity: {user.FullName} (ID {user.Id})"); Console.WriteLine("\n\n");
+            Console.WriteLine($"Access token identity: {user.FirstName} {user.LastName} ({user.FullName}) (ID {user.Id})"); Console.WriteLine("\n\n");
 
             // Get Campaigns
             var campaigns = await client.GetCampaignsAsync(Includes.All).ConfigureAwait(false);
@@ -61,6 +61,8 @@ namespace Patreon.Net.Tests
                     Console.WriteLine($"\tMember {member.Id}: {member.FullName} ({member.Email}) has paid {member.LifetimeSupportCents} cents total with status {member.PatronStatus}");
                     if (memberId == null)
                         memberId = member.Id;
+                    Console.WriteLine($"\tMember \"{member.Id}\" {member.FullName} ({member.Email}): paid {member.LifetimeSupportCents} cents total, status {member.PatronStatus}, is free member? {member.IsFreeTrial}");
+                    memberId ??= member.Id;
                 }
                 Console.WriteLine("\n\n");
             }
@@ -72,7 +74,7 @@ namespace Patreon.Net.Tests
 
             // Get Member by ID
             var singleMember = await client.GetMemberAsync(memberId, Includes.All).ConfigureAwait(false);
-            Console.WriteLine($"Member {singleMember.Id}: {singleMember.FullName} ({singleMember.PatronStatus}) has paid {singleMember.CampaignLifetimeSupportCents} cents total, entitled to {singleMember.Relationships.Tiers?.Length.ToString() ?? "null"} tier(s)");
+            Console.WriteLine($"Member \"{singleMember.Id}\" {singleMember.FullName} ({singleMember.Email}): paid {singleMember.CampaignLifetimeSupportCents} campaign currency, is free member? {singleMember.IsFreeTrial}, status ({singleMember.PatronStatus}), entitled to {singleMember.Relationships.Tiers?.Length.ToString() ?? "null"} tier(s)");
             var entitledTiers = singleMember.Relationships.Tiers;
             if (entitledTiers != null)
             {

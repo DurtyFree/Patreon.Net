@@ -14,6 +14,22 @@ namespace Patreon.Net.Models
     [PatreonResource("pledge-event")]
     public class PledgeEvent : PatreonResource<PledgeEventRelationships>
     {
+        public enum PledgePaymentStatusValue
+        {
+            [EnumMember(Value = "queued")]
+            Queued,
+            [EnumMember(Value = "pending")]
+            Pending,
+            [EnumMember(Value = "valid")]
+            Valid,
+            [EnumMember(Value = "declined")]
+            Declined,
+            [EnumMember(Value = "fraud")]
+            Fraud,
+            [EnumMember(Value = "disabled")]
+            Disabled
+        }
+
         [JsonConverter(typeof(StringEnumConverter))]
         public enum PaymentStatusValue
         {
@@ -29,8 +45,14 @@ namespace Patreon.Net.Models
             Refunded,
             [EnumMember(Value = "Fraud")]
             Fraud,
+            [EnumMember(Value = "Refunded by Patreon")]
+            RefundedByPatreon,
             [EnumMember(Value = "Other")]
-            Other
+            Other,
+            [EnumMember(Value = "Partially Refunded")]
+            PartiallyRefunded,
+            [EnumMember(Value = "Free Trial")]
+            FreeTrial
         }
 
         [JsonConverter(typeof(StringEnumConverter))]
@@ -65,6 +87,11 @@ namespace Patreon.Net.Models
         /// </summary>
         [JsonProperty("date")]
         public DateTimeOffset Date { get; set; }
+        /// <summary>
+        /// The payment status of the pledge.
+        /// </summary>
+        [JsonProperty("pledge_payment_status")]
+        public PledgePaymentStatusValue PledgePaymentStatus { get; set; }
         /// <summary>
         /// Status of underlying payment.
         /// </summary>
